@@ -31,10 +31,10 @@
     },
     "scripts": {
         "setup": "ts-patch install",
-        "clean": "rimraf ./plugin/**/*.d.ts ./plugin/**/*.js ./plugin/**/*.js.map plugin/node_modules plugin/package-lock.json plugin/README.md demo/node_modules demo-angular/node_modules",
+        "clean": "rimraf ./plugin/**/*.d.ts ./plugin/**/*.js ./plugin/**/*.js.map plugin/node_modules plugin/package-lock.json plugin/README.md",
         "tsc": "cpy '**/*.d.ts' '../plugin' --parents --cwd=src && tsc -skipLibCheck -d",
         "build": "cp README.md ./plugin && rm -f .tsbuildinfo && npm run tsc ",
-        "publish": "npm run setup && npm run build && npm run build.angular && lerna publish --create-release=github --force-publish",
+        "publish": "npm run setup && npm run build && lerna publish --create-release=github --force-publish",
         "commitmsg": "commitlint -e $GIT_PARAMS"
     },
     "repository": {
