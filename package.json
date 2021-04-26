@@ -1,5 +1,5 @@
 {
-    "name": "@nativescript-community/ui-collectionview",
+    "name": "@nativescript-community/algolia",
     "version": "1.0.0",
     "devDependencies": {
         "@commitlint/cli": "^11.0.0",
