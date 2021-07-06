@@ -35,7 +35,7 @@ export class AlgoliaIndex {
     }
 }
 
-const CompletionHandler = com.algolia.search.saas.CompletionHandler.extend({
+export const CompletionHandler = com.algolia.search.saas.CompletionHandler.extend({
     init(): void {
         return global.__native(this);
     },
@@ -48,5 +48,3 @@ const CompletionHandler = com.algolia.search.saas.CompletionHandler.extend({
         return this.handler(JSON.parse(content.toString()));
     }
 });
-
-exports.CompletionHandler = CompletionHandler;
