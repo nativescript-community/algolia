@@ -1,3 +1,15 @@
+let client;
+
+export class Algolia {
+    constructor(appID: string, apiKey: string) {
+        client = new com.algolia.search.saas.Client(appID, apiKey);
+    }
+
+    public initIndex(name: string): AlgoliaIndex {
+        return new AlgoliaIndex(client, name);
+    }
+}
+
 let index;
 export class AlgoliaIndex {
     constructor(client: com.algolia.search.saas.Client, name: string) {
@@ -48,3 +60,4 @@ export const CompletionHandler = com.algolia.search.saas.CompletionHandler.exten
         return this.handler(JSON.parse(content.toString()));
     }
 });
+

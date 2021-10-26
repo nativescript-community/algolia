@@ -4,6 +4,12 @@
     "description": "NativeScript plugin for Algolia search.",
     "main": "./algolia",
     "typings": "./algolia.d.ts",
+    "scripts": {
+        "build": "npm run tsc && npm run readme",
+        "readme": "../../node_modules/.bin/readme generate -c ../../tools/readme/blueprint.json",
+        "tsc": "../../node_modules/.bin/cpy '**/*.d.ts' '../../packages/algolia' --parents --cwd=../../src/algolia && ../../node_modules/.bin/tsc -skipLibCheck -d",
+        "clean": "../../node_modules/.bin/rimraf ./*.d.ts ./*.js ./*.js.map"
+    },
     "nativescript": {
         "platforms": {
             "android": "6.0.0",

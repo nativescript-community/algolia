@@ -4,7 +4,3 @@ export declare class AlgoliaIndex {
     setSettings(settings: Object, handler: Function): void;
     addObjects(object: Object, handler: Function): void;
 }
-
-export declare class CompletionHandler {
-    handler: Function;
-}
