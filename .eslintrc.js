@@ -1,19 +1,19 @@
 module.exports = {
-    extends: ['plugin:prettier/recommended'],
-    plugins: ['@nativescript', 'prettier', '@typescript-eslint'],
-    parser: '@typescript-eslint/parser',
+    extends: ['plugin:prettier/recommended', 'plugin:vue/essential'],
+    plugins: ['prettier', '@typescript-eslint', '@nativescript'],
+    parser: 'vue-eslint-parser',
     parserOptions: {
-        ecmaVersion: 2018,
+        ecmaVersion: 2019,
         sourceType: 'module',
+        extraFileExtensions: ['.vue', '.svelte'],
         parser: '@typescript-eslint/parser',
         project: 'tsconfig.eslint.json',
-        extraFileExtensions: ['.vue'],
         warnOnUnsupportedTypeScriptVersion: false,
-        tsconfigRootDir: __dirname,
-        createDefaultProgram: true
+        tsconfigRootDir: __dirname
     },
     rules: {
         'prettier/prettier': 'warn',
+        'vue/custom-event-name-casing': 'off',
         '@nativescript/no-nativescript-angular-imports': 'warn',
         '@nativescript/no-tns-core-modules-imports': 'warn',
         '@nativescript/no-duplicate-ns-imports': 'warn',

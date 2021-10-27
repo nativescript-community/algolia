@@ -1,4 +1,4 @@
-<!-- ⚠️ This README has been generated from the file(s) "blueprint.md" ⚠️--><!-- ⚠️ This README has been generated from the file(s) "blueprint.md" ⚠️-->
+<!-- ⚠️ This README has been generated from the file(s) "blueprint.md" ⚠️-->
 <!--  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -35,9 +35,6 @@
 
 [](#table-of-contents)
 
-
-[](#table-of-contents)
-
 ## Table of Contents
 
 * [Installation](#installation)
@@ -56,16 +53,10 @@
 
 [](#installation)
 
-
-[](#installation)
-
 ## Installation
 Run the following command from the root of your project:
 
 `ns plugin add @nativescript-community/algolia`
-
-
-[](#initialize-the-client)
 
 
 [](#initialize-the-client)
@@ -81,9 +72,6 @@ import { Algolia } from "@nativescript-community/algolia";
 const client = new Algolia('APP_ID', 'API_KEY');
 const index = client.initIndex('items');
 ```
-
-
-[](#push-data)
 
 
 [](#push-data)
@@ -120,9 +108,6 @@ index.addObjects(contacts)
 
 [](#simple-search)
 
-
-[](#simple-search)
-
 ## Simple Search
 
 With objects added to your index, you can now utilize the searching capabilities.
@@ -136,9 +121,6 @@ index.search("bob")
       console.log("ERROR", error)
   });
 ```
-
-
-[](#advanced-search)
 
 
 [](#advanced-search)
@@ -159,9 +141,6 @@ index.search("", {
       console.log("ERROR", error);
   });
 ```
-
-
-[](#configure)
 
 
 [](#configure)
@@ -209,9 +188,6 @@ index.setSettings({
 
 [](#breaking-changes-in-version-2)
 
-
-[](#breaking-changes-in-version-2)
-
 ## Breaking Changes in Version 2
 
 Switched to Promise based method calls instead of callbacks.
@@ -236,9 +212,6 @@ index.search("bob")
 ```
 
 The method `addObjects` is now deprecated and has been removed and replaced with `saveObjects`. 
-
-
-[](#demos-and-development)
 
 
 [](#demos-and-development)
@@ -278,9 +251,6 @@ npm run demo.[ng|react|svelte|vue].[ios|android]
 
 npm run demo.svelte.ios # Example
 ```
-
-[](#questions)
-
 
 [](#questions)
 
