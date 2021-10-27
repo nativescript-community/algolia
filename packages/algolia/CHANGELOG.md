@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/nativescript-community/algolia/compare/v2.0.0...v2.0.1) (2021-10-27)
+
+
+### Bug Fixes
+
+* missing platforms and gitignore issue ([be962eb](https://github.com/nativescript-community/algolia/commit/be962ebc5733df43ae34e0d6852123b9557c3730))
+
+
+
+
+
 # [2.0.0](https://github.com/nativescript-community/algolia/compare/v1.2.7...v2.0.0) (2021-10-27)
 
 
