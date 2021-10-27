@@ -1,6 +1,6 @@
 {
     "name": "@nativescript-community/algolia",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "devDependencies": {
         "@angular/animations": "~12.2.9",
         "@angular/common": "~12.2.9",
@@ -17,6 +17,7 @@
         "@nativescript/angular": "~12.2.0",
         "@nativescript/core": "~8.1.4",
         "@nativescript/eslint-plugin": "0.0.4",
+        "@nativescript/ios": "8.1.0",
         "@nativescript/types-android": "~8.1.0",
         "@nativescript/types-ios": "~8.1.1",
         "@nativescript/webpack": "~5.0.0",

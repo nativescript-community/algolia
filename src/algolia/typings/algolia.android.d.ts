@@ -16,6 +16,8 @@ declare namespace com {
                     setSettingsAsync(setting: { [key: string]: string[] }, handler: Function): void;
 
                     addObjectAsync(object: { [key: string]: string[] }, handler: Function): void;
+
+                    saveObjectsAsync(object: org.json.JSONArray, handler: Function): void;
                 }
 
                 class Client {

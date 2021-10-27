@@ -1,11 +1,8 @@
-let client;
-
 export class Algolia {
     public client: Client;
 
     constructor(appID: string, apiKey: string) {
-        this.client = Client.alloc();
-        this.client.initWithAppIDApiKey(appID, apiKey);
+        this.client = Client.alloc().initWithAppIDApiKey(appID, apiKey);
     }
 
     public initIndex(name: string): AlgoliaIndex {
@@ -14,67 +11,72 @@ export class Algolia {
 }
 
 
-let index;
-
 export class AlgoliaIndex {
+    public index: Index;
+
     constructor(client: Client, name: string) {
-        /*
-            This is hack as Index is not returning from else condition
-            https://github.com/algolia/algoliasearch-client-swift/blob/master/Source/Client.swift#L99
-        */
-
-        client.indexWithName('').isMemberOfClass(Index);
-        index = client.indexWithName(name);
+        this.index = client.indexWithName(name);
     }
 
-    public search(query: string, args: any, handler?: Function): void {
-        const queryObject = Query.alloc().initWithQuery(query);
+    public search(query: string, args?: any[]): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const queryObject = Query.alloc().initWithQuery(query);
 
-        if (typeof args === 'function') {
-            handler = args;
-        } else {
-            Object.keys(args).forEach((key) => {
-                if (key in queryObject) {
-                    if (key === 'aroundRadius' && args[key] === 'all') {
-                        queryObject.setParameterWithNameTo('aroundRadius', 'all');
-                    } else {
-                        queryObject[key] = buildQuery(key, args[key]);
+            if (args) {
+                Object.keys(args).forEach((key) => {
+                    if (key in queryObject) {
+                        if (key === 'aroundRadius' && args[key] === 'all') {
+                            queryObject.setParameterWithNameTo('aroundRadius', 'all');
+                        } else {
+                            queryObject[key] = buildQuery(key, args[key]);
+                        }
                     }
+                });
+            }
+
+            this.index.searchCompletionHandler(queryObject, (success, error) => {
+                if (error) {
+                    return reject({ status: error.code, reason: error.localizedDescription });
                 }
+
+                return resolve(convertToJSON(success));
             });
-        }
 
-        index.searchCompletionHandler(queryObject, (success, error) => {
-            if (error) {
-                return handler(null, { status: error.code, reason: error.localizedDescription });
-            }
-
-            return handler(convertToJSON(success));
         });
     }
 
-    public setSettings(settings: Object, handler: Function): void {
-        index.setSettingsCompletionHandler(settings, (success, error) => {
-            if (error) {
-                return handler(null, { status: error.code, reason: error.localizedDescription });
-            }
+    public setSettings(settings: any): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const settingsNSDictionary: NSDictionary<string, any> = NSDictionary.dictionaryWithDictionary(settings);
+            this.index.setSettingsCompletionHandler(settingsNSDictionary, (success, error) => {
+                if (error) {
+                    return reject({ status: error.code, reason: error.localizedDescription });
+                }
 
-            return handler(convertToJSON(success));
+                return resolve(convertToJSON(success));
+            });
         });
     }
 
-    public addObjects(object: Object, handler: Function): void {
-        index.addObjectsCompletionHandler(object, (success, error) => {
-            if (error) {
-                return handler(null, { status: error.code, reason: error.localizedDescription });
+    public saveObjects(objects: any[]): Promise<void> {
+        return new Promise((resolve, reject) => {
+            let objectsNSDictionary: NSDictionary<string, any>[] = [];
+            for (const object of objects) {
+                objectsNSDictionary.push(NSDictionary.dictionaryWithDictionary(object));
             }
 
-            return handler(convertToJSON(success));
+            this.index.saveObjectsCompletionHandler(objectsNSDictionary, (success, error) => {
+                if (error) {
+                    return reject({ status: error.code, reason: error.localizedDescription });
+                }
+
+                return resolve(convertToJSON(success));
+            });
         });
     }
 }
 
-export const convertToJSON = (data: NSDictionary<string, any>): JSON => {
+export const convertToJSON = (data: NSDictionary<string, any>): any => {
     const jsonData = NSJSONSerialization.dataWithJSONObjectOptionsError(data, 0);
     return JSON.parse(NSString.alloc().initWithDataEncoding(jsonData, 4).toString());
 };
@@ -82,7 +84,7 @@ export const convertToJSON = (data: NSDictionary<string, any>): JSON => {
 export const buildQuery = (key: string, value: string): string | boolean | LatLng => {
     if (key === 'aroundLatLng') {
         const latlng = value.replace(/ /g, '').split(',');
-        return LatLng.alloc().initWithLatLng(latlng[0], latlng[1]);
+        return LatLng.alloc().initWithLatLng(Number(latlng[0]), Number(latlng[1]));
     }
 
     return value;

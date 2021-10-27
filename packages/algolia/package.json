@@ -1,7 +1,7 @@
 {
     "name": "@nativescript-community/algolia",
     "version": "1.2.7",
-    "description": "NativeScript plugin for Algolia search.",
+    "description": "NativeScript plugin for Algolia search. This plugin is designed to mirror, as closely as possible, the structure of Algolia’s JavaScript client.",
     "main": "./algolia",
     "typings": "./algolia.d.ts",
     "scripts": {

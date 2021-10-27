@@ -25,16 +25,12 @@
 	</p>
 
 <p align="center">
-  <b>NativeScript plugin for Algolia search.</b></br>
+  <b>NativeScript plugin for Algolia search. This plugin is designed to mirror, as closely as possible, the structure of Algolia’s JavaScript client.</b></br>
   <sub><sub>
 </p>
 
 <br />
 
-
-| <img src="https://raw.githubusercontent.com/nativescript-community/ui-drawer/master/images/demo-ios.gif" height="500" /> | <img src="https://raw.githubusercontent.com/nativescript-community/ui-drawer/master/images/demo-android.gif" height="500" /> |
-| --- | ----------- |
-| iOS Demo | Android Demo |
 
 
 [](#table-of-contents)
@@ -42,11 +38,12 @@
 ## Table of Contents
 
 * [Installation](#installation)
-* [Quick Start](#quick-start)
-	* [Initialize the client](#initialize-the-client)
-	* [Push data](#push-data)
-	* [Search](#search)
-	* [Configure](#configure)
+* [Initialize the client](#initialize-the-client)
+* [Push Data](#push-data)
+* [Simple Search](#simple-search)
+* [Advanced Search](#advanced-search)
+* [Configure](#configure)
+* [Breaking Changes in Version 2](#breaking-changes-in-version-2)
 * [Demos and Development](#demos-and-development)
 	* [Setup](#setup)
 	* [Build](#build)
@@ -61,82 +58,109 @@ Run the following command from the root of your project:
 
 `ns plugin add @nativescript-community/algolia`
 
-1. **[Quick Start](#quick-start)**
-
-    * [Initialize the client](#initialize-the-client)
-    * [Push data](#push-data)
-    * [Search](#search)
-    * [Configure](#configure)
-    
 
 
-[](#quick-start)
 
-## Quick Start
+[](#initialize-the-client)
 
-In 30 seconds, this quick start tutorial will show you how to index and search objects.
-
-### Initialize the client
+## Initialize the client
 
 You first need to initialize the client. For that, you will need your **Application ID** and **API Key**.
 You can find both of them on [your Algolia account](https://www.algolia.com/api-keys).
 
 ```js
 import { Algolia } from "@nativescript-community/algolia";
-var client = new Algolia('applicationID', 'apiKey');
-var index = client.initIndex('contacts');
+
+const client = new Algolia('APP_ID', 'API_KEY');
+const index = client.initIndex('items');
 ```
 
-### Push data
 
-Without any prior configuration, you can start indexing [500 contacts](https://github.com/algolia/algoliasearch-client-csharp/blob/master/contacts.json) in the `contacts` index using the following code:
+[](#push-data)
 
-```js
-var index = client.initIndex('contacts');
-var contactsJSON = require('./contacts.json');
+## Push Data
 
-index.addObjects(contactsJSON, function(content, err) {
-  if (err) {
-    console.error(err);
-  }
-});
+Add or replace an existing object in your index with an updated set of attributes.
+
+```typescript
+const contacts = [
+    { 
+        objectID: "1234567890",
+        firstname: "John", 
+        lastname: "Smith",
+        zip_code: 78787
+    },
+    { 
+        objectID: "987654321",
+        firstname: "Billy", 
+        lastname: "Bob",
+        zip_code: 54321
+    },
+];
+
+index.addObjects(contacts)
+  .then(result => {
+      console.log(result);
+  })
+  .catch(error => {
+      console.log("ERROR!", error);
+  });
 ```
 
-### Search
 
-With these tasks complete, you can now search for contacts by querying fields such as firstname, lastname, company and more. As Algolia is typo tolerant, common misspellings can be handled with ease:
+[](#simple-search)
 
-```js
-// firstname
-index.search('jimmie', function(content, err) {
-  console.log(content.hits);
-});
+## Simple Search
 
-// firstname with typo
-index.search('jimie', function(content, err) {
-  console.log(content.hits);
-});
+With objects added to your index, you can now utilize the searching capabilities.
 
-// a company
-index.search('california paint', function(content, err) {
-  console.log(content.hits);
-});
-
-// a firstname & company
-index.search('jimmie paint', function(content, err) {
-  console.log(content.hits);
-});
+```typescript
+await index.search("bob")
+  .then(content => {
+      console.log(content.hits)
+  })
+  .catch(error => {
+      console.log("ERROR", error)
+  });
 ```
-### Configure
+
+
+[](#advanced-search)
+
+## Advanced Search
+
+There is also the ability to pass in search parameters for more advanced searching such as geolocation. See available search parameters [here](https://www.algolia.com/doc/api-reference/search-api-parameters/).
+
+```typescript
+await index.search("", {
+    aroundLatLng: "38.846693, -104.861354",
+    aroundRadius: 200000 // meters
+})
+  .then(content => {
+      console.log(content.hits);
+  })
+  .catch(error => {
+      console.log("ERROR", error);
+  });
+```
+
+
+[](#configure)
+
+## Configure
 
 Settings can be customized to tune the search behavior. For example, you can add a custom sort by number of followers to the already great built-in relevance:
 
-```js
+```typescript
 index.setSettings({
-  'customRanking': ['desc(followers)']
-}, function(err, content) {
-  console.log(content);
-});
+  customRanking: ['desc(firstname)']
+})
+  .then(result => {
+      console.log("Setting saved", result);
+  })
+  .catch(error => {
+      console.log("ERROR", error);
+  });
 ```
 
 You can also configure the list of attributes you want to index by order of importance (ex: firstname = most important):
@@ -144,9 +168,9 @@ You can also configure the list of attributes you want to index by order of impo
 **Note:** Since the engine is designed to suggest results as you type, you'll generally search by prefix.
 In this case the order of attributes is very important to decide which hit is the best:
 
-```js
+```typescript
 index.setSettings({
-  'searchableAttributes': [
+  searchableAttributes: [
     'lastname',
     'firstname',
     'company',
@@ -154,10 +178,42 @@ index.setSettings({
     'city',
     'address'
   ]
-}, function(content, err) {
-  console.log(content);
+})
+  .then(result => {
+      console.log("Setting saved", result);
+  })
+  .catch(error => {
+      console.log("ERROR", error);
+  });
+```
+
+
+[](#breaking-changes-in-version-2)
+
+## Breaking Changes in Version 2
+
+Switched to Promise based method calls instead of callbacks.
+
+**Before**:
+```typescript
+index.search('bob', function(content, err) {
+  console.log(content.hits);
 });
 ```
+
+**After**:
+```typescript
+index.search("bob")
+  .then(content => {
+      console.log(content.hits)
+  })
+  .catch(error => {
+      console.log("ERROR", error)
+  });
+
+```
+
+The method `addObjects` is now deprecated and has been removed and replaced with `saveObjects`. 
 
 
 [](#demos-and-development)
