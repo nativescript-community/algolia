@@ -65,8 +65,6 @@ Run the following command from the root of your project:
 `ns plugin add @nativescript-community/algolia`
 
 
-
-
 [](#initialize-the-client)
 
 
@@ -130,7 +128,7 @@ index.addObjects(contacts)
 With objects added to your index, you can now utilize the searching capabilities.
 
 ```typescript
-await index.search("bob")
+index.search("bob")
   .then(content => {
       console.log(content.hits)
   })
@@ -150,7 +148,7 @@ await index.search("bob")
 There is also the ability to pass in search parameters for more advanced searching such as geolocation. See available search parameters [here](https://www.algolia.com/doc/api-reference/search-api-parameters/).
 
 ```typescript
-await index.search("", {
+index.search("", {
     aroundLatLng: "38.846693, -104.861354",
     aroundRadius: 200000 // meters
 })
