@@ -1,6 +1,41 @@
 {
     "name": "@nativescript-community/algolia",
     "version": "1.0.0",
+    "homepage": "https://github.com/nativescript-community/algolia#readme",
+    "bugs": {
+        "url": "https://github.com/nativescript-community/algolia/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nativescript-community/algolia.git"
+    },
+    "license": "ISC",
+    "author": "",
+    "scripts": {
+        "build": "lerna run build",
+        "clean": "rimraf packages/**/*.d.ts packages/**/*.js packages/**/*.js.map packages/**/*.metadata.json packages/**/*.ngsummary.json node_modules package-lock.json",
+        "commitmsg": "commitlint -e $GIT_PARAMS",
+        "demo.vue.android": "cd ./demo-vue && ns run android --no-hmr",
+        "demo.vue.ios": "cd ./demo-vue && ns run ios --no-hmr",
+        "postinstall": "npm run setup",
+        "publish": "npm run setup && npm run build.all && lerna publish --create-release=github --force-publish",
+        "readme": "node ./tools/readme.js",
+        "setup": "npm run submodules && ts-patch install",
+        "start": "./node_modules/.bin/ntl -A -s 15 -o",
+        "submodules": "git submodule update --init",
+        "sync": "node ./tools/sync.js -w && npx sort-package-json",
+        "sync.test": "node ./tools/sync.js",
+        "tsc": "cpy '**/*.d.ts' '../plugin' --parents --cwd=src && tsc -skipLibCheck -d",
+        "watch": "npm run tsc -- -w"
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "dependencies": {
+        "ts-node": "^9.0.0"
+    },
     "devDependencies": {
         "@angular/animations": "~12.2.9",
         "@angular/common": "~12.2.9",
@@ -55,41 +90,6 @@
         "vue": "~2.6.14",
         "yargs": "^17.2.1",
         "zone.js": "~0.11.4"
-    },
-    "scripts": {
-        "setup": "npm run submodules && ts-patch install",
-        "clean": "rimraf packages/**/*.d.ts packages/**/*.js packages/**/*.js.map packages/**/*.metadata.json packages/**/*.ngsummary.json node_modules package-lock.json",
-        "tsc": "cpy '**/*.d.ts' '../plugin' --parents --cwd=src && tsc -skipLibCheck -d",
-        "build": "lerna run build",
-        "publish": "npm run setup && npm run build.all && lerna publish --create-release=github --force-publish",
-        "commitmsg": "commitlint -e $GIT_PARAMS",
-        "demo.vue.android": "cd ./demo-vue && ns run android --no-hmr",
-        "demo.vue.ios": "cd ./demo-vue && ns run ios --no-hmr",
-        "postinstall": "npm run setup",
-        "readme": "node ./tools/readme.js",
-        "start": "./node_modules/.bin/ntl -A -s 15 -o",
-        "submodules": "git submodule update --init",
-        "sync": "node ./tools/sync.js -w && npx sort-package-json",
-        "sync.test": "node ./tools/sync.js",
-        "watch": "npm run tsc -- -w"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/nativescript-community/algolia.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/nativescript-community/algolia/issues"
-    },
-    "homepage": "https://github.com/nativescript-community/algolia#readme",
-    "commitlint": {
-        "extends": [
-            "@commitlint/config-conventional"
-        ]
-    },
-    "dependencies": {
-        "ts-node": "^9.0.0"
     },
     "ntl": {
         "descriptions": {

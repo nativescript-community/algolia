@@ -1,0 +1,3 @@
+dependencies {
+    implementation 'com.algolia:algoliasearch-android:3.+'
+}
