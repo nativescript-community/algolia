@@ -2,6 +2,6 @@
 	"name": "@nativescript-community/template-snippet",
 	"version": "0.0.1",
 	"dependencies": {
-	    "@nativescript-community/algolia": "../packages/algolia"
+		"@nativescript-community/algolia": "file:../packages/algolia"
 	}
 }
