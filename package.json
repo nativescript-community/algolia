@@ -28,7 +28,8 @@
         "sync.test": "node ./tools/sync.js",
         "tsc": "cpy '**/*.d.ts' '../plugin' --parents --cwd=src && tsc -skipLibCheck -d",
         "update": "node ./tools/update.js",
-        "watch": "npm run tsc -- -w"
+        "watch": "npm run tsc -- -w",
+        "build.all": "npm run build"
     },
     "commitlint": {
         "extends": [
@@ -41,6 +42,7 @@
     "ntl": {
         "descriptions": {
             "build": "Build the plugin",
+            "build.all": "Build the plugin for all platforms",
             "clean": "Clean the local environment.",
             "demo.vue.android": "Runs the Vue demo on Android.",
             "demo.vue.ios": "Runs the Vue demo on iOS.",
