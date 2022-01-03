@@ -7,17 +7,17 @@ declare namespace com {
 
                     set(key: string, value: string);
 
-                    multipleQueriesAsync(query: IndexQuery[], strategy: string, handler: Function);
+                    multipleQueriesAsync(query: IndexQuery[], strategy: string, handler: CompletionHandler);
                 }
 
                 class Index {
-                    searchAsync(query: Query, handler: Function): void;
+                    searchAsync(query: Query, handler: CompletionHandler): void;
 
-                    setSettingsAsync(setting: { [key: string]: string[] }, handler: Function): void;
+                    setSettingsAsync(setting: { [key: string]: string[] }, handler: CompletionHandler): void;
 
-                    addObjectAsync(object: { [key: string]: string[] }, handler: Function): void;
+                    addObjectAsync(object: { [key: string]: string[] }, handler: CompletionHandler): void;
 
-                    saveObjectsAsync(object: org.json.JSONArray, handler: Function): void;
+                    saveObjectsAsync(object: org.json.JSONArray, handler: CompletionHandler): void;
                 }
 
                 class Client {
@@ -29,11 +29,13 @@ declare namespace com {
                 class IndexQuery {
                     constructor(indexName: string, query: Query);
                 }
-
-                namespace CompletionHandler {
-                    export function extend(context: any);
-
-                    /* Need to add all function rather use any */
+                export class CompletionHandler {
+                    public static class: java.lang.Class<CompletionHandler>;
+                    /**
+                     * Constructs a new instance of the com.algolia.search.saas.CompletionHandler interface with the provided implementation. An empty constructor exists calling super() when extending the interface class.
+                     */
+                    public constructor();
+                    public requestCompleted(param0: org.json.JSONObject, param1: Error): void;
                 }
             }
         }

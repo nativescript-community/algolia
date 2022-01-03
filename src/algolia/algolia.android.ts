@@ -16,7 +16,7 @@ export class AlgoliaIndex {
         this.index = client.initIndex(name);
     }
 
-    public search(query: string, args?: any[]): Promise<void> {
+    public search(query: string, args?: any): Promise<void> {
         return new Promise((resolve, reject) => {
             const queryObject = new com.algolia.search.saas.Query(query);
 
@@ -52,7 +52,7 @@ export class AlgoliaIndex {
         });
     }
 
-    public saveObjects(objects: any[]): Promise<void> {
+    public saveObjects(objects: any): Promise<void> {
         return new Promise((resolve, reject) => {
             const completionHandler = new CompletionHandler();
             completionHandler.handler = (content, error) => {
@@ -67,17 +67,19 @@ export class AlgoliaIndex {
     }
 }
 
-export const CompletionHandler = com.algolia.search.saas.CompletionHandler.extend({
-    init(): void {
+@NativeClass()
+export class CompletionHandler extends com.algolia.search.saas.CompletionHandler {
+    public handler: Function;
+    constructor() {
+        super();
         return global.__native(this);
-    },
+    }
 
-    requestCompleted(content: JSON, error: Error): void {
+    requestCompleted(content: org.json.JSONObject, error: Error): void {
         if (error) {
             return this.handler(null, error);
         }
 
         return this.handler(JSON.parse(content.toString()));
     }
-});
-
+}
