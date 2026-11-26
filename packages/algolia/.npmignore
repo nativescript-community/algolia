@@ -1,5 +1,5 @@
 node_modules/
-src/
+pnpm-global/
 bin/
 hooks/
 *.ts
@@ -9,3 +9,4 @@ tsconfig.json
 *.aar
 *.jar
 blueprint.md
+!nativescript.config.ts
